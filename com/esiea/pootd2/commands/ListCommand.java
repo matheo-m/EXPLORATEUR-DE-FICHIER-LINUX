@@ -1,4 +1,7 @@
 package com.esiea.pootd2.commands;
 
-public class ListCommand {
+public class ListCommand extends Command {
+    public ListCommand() {
+        // Pas d'arguments pour cette commande
+    }
 }
