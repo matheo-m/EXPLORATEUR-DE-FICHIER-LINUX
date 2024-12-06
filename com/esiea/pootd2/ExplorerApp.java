@@ -4,9 +4,11 @@ import com.esiea.pootd2.models.FileInode;
 import com.esiea.pootd2.models.FolderInode;
 
 import com.esiea.pootd2.commands.*;
+import com.esiea.pootd2.controllers.ExplorerController;
+import com.esiea.pootd2.interfaces.TextInterface;
 
 public class ExplorerApp {
-    
+
     public static void main(String[] args) {
         // FolderInode root = new FolderInode("/");
         // FolderInode folder1 = new FolderInode("POO");
@@ -19,12 +21,17 @@ public class ExplorerApp {
         // folder1.addInode(file1);
         // folder2.addInode(file2);
         // folder2.addInode(file3);
-        
-        Command c1 = new ListCommand();
-        Command c2 = new ChangeDirectoryCommand("../home");
-        Command c3 = new MakeDirectoryCommand("Documents");
-        Command c4 = new TouchCommand("Photo_de_vacances.png");
-        Command c5 = new ErrorCommand("Internal error");
 
-        }
+        ExplorerController controller = new ExplorerController();
+
+        // System.out.println(controller.executeCommand("mkdir TestFolder"));
+        // System.out.println(controller.executeCommand("touch file1.txt"));
+        // System.out.println(controller.executeCommand("ls"));
+        // System.out.println(controller.executeCommand("cd TestFolder"));
+        // System.out.println(controller.executeCommand("ls"));
+
+        TextInterface textInterface = new TextInterface(controller);
+
+        textInterface.run();
+    }
 }

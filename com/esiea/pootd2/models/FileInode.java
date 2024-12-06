@@ -13,6 +13,4 @@ public class FileInode extends Inode {
         return this.size;
     }
 
-
-
 }
