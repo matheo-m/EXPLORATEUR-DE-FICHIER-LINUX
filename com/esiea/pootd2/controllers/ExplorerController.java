@@ -92,7 +92,7 @@ public class ExplorerController implements IExplorerController {
                 } else {
                     return null;
                 }
-            } else { // 
+            } else { // aller dans le bon dossier sans la liste current.getChildren
                 boolean found = false;
                 for (var inode : current.getChildren()) {
                     if (inode instanceof FolderInode && inode.getName().equals(part)) {
@@ -100,12 +100,10 @@ public class ExplorerController implements IExplorerController {
                         found = true;
                         break;
                     }
-
                 }
                 if (!found) {
                     return null; // Dossier introuvable
                 }
-
             }
         }
 

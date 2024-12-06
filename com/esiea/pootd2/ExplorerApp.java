@@ -1,9 +1,5 @@
 package com.esiea.pootd2;
 
-import com.esiea.pootd2.models.FileInode;
-import com.esiea.pootd2.models.FolderInode;
-
-import com.esiea.pootd2.commands.*;
 import com.esiea.pootd2.controllers.ExplorerController;
 import com.esiea.pootd2.interfaces.TextInterface;
 

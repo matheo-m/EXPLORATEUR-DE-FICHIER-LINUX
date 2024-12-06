@@ -2,7 +2,6 @@ package com.esiea.pootd2.interfaces;
 
 import java.util.Scanner;
 
-import com.esiea.pootd2.controllers.ExplorerController;
 import com.esiea.pootd2.controllers.IExplorerController;
 
 public class TextInterface implements IUserInterface {
@@ -22,7 +21,7 @@ public class TextInterface implements IUserInterface {
             System.out.print("> ");
             String command = scanner.nextLine();
 
-            if ("exit".equalsIgnoreCase(command.trim())) {
+            if (command.trim().equals("exit")) {
                 System.out.println("Exiting the file explorer. Goodbye!");
                 break;
             }

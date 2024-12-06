@@ -20,8 +20,12 @@ public class FolderInode extends Inode {
         return this.size;
     }
 
-    public void addInode(Inode inode) {
+    public void setParent(Inode inode) {
         inode.parent = this;
+    }
+
+    public void addInode(Inode inode) {
+        this.setParent(inode);
         this.children.add(inode);
     }
 
