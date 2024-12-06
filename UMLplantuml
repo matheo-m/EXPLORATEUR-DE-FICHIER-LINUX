@@ -1,0 +1,62 @@
+@startuml
+
+package com.esiea.pootd2 {
+    class ExplorerApp {
+        + main(String[] args)
+    }
+
+    package models {
+        abstract class Inode {
+            - String name
+            # FolderInode parent
+            + Inode(String name)
+        }
+
+        class FileInode implements Inode {
+            - int size
+        }
+
+        class FolderInode implements Inode {
+            - int size
+            - ArrayList<Inode> children
+            + FolderInode(String name)
+        }
+        
+        Inode "1" <-- "0..*" FolderInode : children
+    }
+
+    package controllers {
+        class ExplorerController implements IExplorerController{
+            - FolderInode currentDirectory
+            + ExplorerController()
+        }
+
+        interface IExplorerController {
+            + String executeCommand(String commandStr)
+        }
+
+    }
+
+    package interfaces {
+        class AbstractInterface {
+            + AbstractInterface(IExplorerController controller)
+        }
+
+        interface IUserInterface {
+            + void run()
+        }
+
+        class TextInterface implements IUserInterface {
+            - IExplorerController controller
+            + TextInterface(IExplorerController controller)
+        }
+    }
+ExplorerController --> FolderInode
+ExplorerApp --> ExplorerController
+ExplorerApp --> TextInterface
+TextInterface --> IExplorerController
+AbstractInterface --> IExplorerController
+}
+
+
+@enduml
