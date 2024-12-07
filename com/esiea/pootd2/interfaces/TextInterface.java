@@ -1,28 +1,25 @@
 package com.esiea.pootd2.interfaces;
 
-import java.util.Scanner;
-
 import com.esiea.pootd2.controllers.IExplorerController;
 
-public class TextInterface implements IUserInterface {
+import java.util.Scanner;
 
-    private IExplorerController controller;
-
+public class TextInterface extends AbstractInterface implements IUserInterface {
     public TextInterface(IExplorerController controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to the file explorer. Type 'exit' to quit.");
-
+        System.out.println("Bienvenue dans l'explorateur de fichiers. Tapez 'exit' pour quitter.");
         while (true) {
-            System.out.print("> ");
+            String currentPath = controller.getCurrentPath();
+            System.out.print(currentPath+"> ");
             String command = scanner.nextLine();
 
-            if (command.trim().equals("exit")) {
-                System.out.println("Exiting the file explorer. Goodbye!");
+            if ("exit".equalsIgnoreCase(command.trim())) {
+                System.out.println("Sortie de l'explorateur de fichiers. Au revoir!");
                 break;
             }
 
@@ -31,8 +28,5 @@ public class TextInterface implements IUserInterface {
         }
 
         scanner.close();
-
     }
-
-    
 }

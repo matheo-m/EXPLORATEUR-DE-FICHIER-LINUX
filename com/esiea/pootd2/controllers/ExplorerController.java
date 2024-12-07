@@ -5,6 +5,7 @@ import com.esiea.pootd2.commands.Command;
 import com.esiea.pootd2.commands.ErrorCommand;
 import com.esiea.pootd2.commands.ListCommand;
 import com.esiea.pootd2.commands.MakeDirectoryCommand;
+import com.esiea.pootd2.commands.PwdCommand;
 import com.esiea.pootd2.commands.TouchCommand;
 import com.esiea.pootd2.commands.parsers.UnixLikeCommandParser;
 import com.esiea.pootd2.models.FileInode;
@@ -15,7 +16,7 @@ public class ExplorerController implements IExplorerController {
     private FolderInode currentDirectory;
 
     public ExplorerController() {
-        this.currentDirectory = new FolderInode("/"); // Dossier racine
+        this.currentDirectory = new FolderInode("_entre_");
     }
 
     @Override
@@ -34,6 +35,8 @@ public class ExplorerController implements IExplorerController {
             return doMakeDirectoryCommand((MakeDirectoryCommand) command);
         } else if (command instanceof TouchCommand) {
             return doTouchCommand((TouchCommand) command);
+        } else if (command instanceof PwdCommand) {
+            return getCurrentPath();
         } else if (command instanceof ErrorCommand) {
             return ((ErrorCommand) command).getErrorMessage();
         } else {
@@ -44,7 +47,7 @@ public class ExplorerController implements IExplorerController {
     private String doListCommand() {
         String output = "";
         for (var inode : currentDirectory.getChildren()) {
-            output += inode.getName() + "\t\t" + inode.getSize() + "\n";
+            output += inode.getName() + "\t" + inode.getSize() + "\n";
         }
         return output.trim();
     }
@@ -119,5 +122,25 @@ public class ExplorerController implements IExplorerController {
         }
         return current;
     }
+
+    @Override
+    public String getCurrentPath() {
+        String path = "";
+        FolderInode current = currentDirectory;
+    
+        while (current != null) {
+            if (current.getParent() != null) {
+                // Ajouter le nom du dossier courant avec un "/" seulement si ce n'est pas la racine
+                path = "/" + current.getName() + path;
+            } else {
+                // Ne pas ajouter un "/" supplémentaire pour la racine
+                path = path.isEmpty() ? "/" : path;
+            }
+            current = current.getParent();
+        }
+    
+        return path;
+    }
+    
 
 }

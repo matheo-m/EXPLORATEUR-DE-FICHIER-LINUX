@@ -5,6 +5,7 @@ import com.esiea.pootd2.commands.Command;
 import com.esiea.pootd2.commands.ErrorCommand;
 import com.esiea.pootd2.commands.ListCommand;
 import com.esiea.pootd2.commands.MakeDirectoryCommand;
+import com.esiea.pootd2.commands.PwdCommand;
 import com.esiea.pootd2.commands.TouchCommand;
 
 public class UnixLikeCommandParser implements ICommandParser {
@@ -34,6 +35,8 @@ public class UnixLikeCommandParser implements ICommandParser {
         switch (command) {
             case "ls":
                 return new ListCommand();
+            case "pwd":
+                return new PwdCommand();
             case "cd":
                 if (parts.length < 2) {
                     return new ErrorCommand("cd requires a path argument");

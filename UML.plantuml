@@ -42,15 +42,30 @@ package com.esiea.pootd2 {
         interface IUserInterface {
             + run()
         }
+        abstract class AbstractInterface {
+            # controller : IExplorerController;
+            AbstractInterface(controller : IExplorerController)
+            + abstract run() : void
+        }
 
-        class TextInterface implements IUserInterface {
+        class TextInterface extends AbstractInterface implements IUserInterface {
             - controller : IExplorerController
             + TextInterface(controller : IExplorerController)
             + run()
         }
 
-        abstract class AbstractInterface {
-            + AbstractInterface(controller : IExplorerController)
+
+        class HttpInterface extends AbstractInterface implements HttpHandler {
+            - server : HttpServer
+            - threadPool : ExecutorService
+            - serverShouldClose : boolean
+            + HttpInterface(controller : IExplorerController)
+            + run() : void
+            + handle(exchange : HttpExchange) : void
+            - handleGetDefault(exchange : HttpExchange) : void
+            - handlePostExecute(exchange : HttpExchange) : void
+            - handleError(exchange : HttpExchange) : void
+            - constructWebPage() : String
         }
     }
 
