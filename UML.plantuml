@@ -1,11 +1,8 @@
-https://foad.ensicaen.fr/pluginfile.php/1214/course/section/635/uml2java.pdf
-https://plantuml.com/en/guide
-
 @startuml
 
 skinparam classAttributeIconSize 0
 
-package com.esiea.pootd2{
+package com.esiea.pootd2 {
     class ExplorerApp {
         + main(String[] args)
     }
@@ -35,6 +32,9 @@ package com.esiea.pootd2{
             + FileInode(String name)
             + getSize() : int
         }
+
+        Inode "1" <-- "0..*" FolderInode : children
+
     }
 
     package interfaces {
@@ -125,19 +125,5 @@ package com.esiea.pootd2{
     }
 
 }
-
-
-
-' Inode "1" <|-- "0..*" FolderInode
-' Inode "1" <|-- "0..*" FileInode
-' TextInterface "1" o-- "1" IExplorerController
-' AbstractInterface "1" o-- "1" IExplorerController
-' ExplorerController "1" o-- "1" FolderInode
-' Command "1" <|-- TouchCommand
-' Command "1" <|-- MakeDirectoryCommand
-' Command "1" <|-- ListCommand
-' Command "1" <|-- ErrorCommand
-' Command "1" <|-- ChangeDirectoryCommand
-' ICommandParser <|-- UnixLikeCommandParser
 
 @enduml
