@@ -1,0 +1,140 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+package com.esiea.pootd2{
+    class ExplorerApp {
+        + main(String[] args)
+    }
+    package models {
+
+        abstract class Inode {
+            - name : String
+            # parent : FolderInode
+            + Inode(name : String)
+            + getName() : String
+            + getParent() : FolderInode
+            + getSize() : int
+        }
+
+        class FolderInode extends Inode {
+            - size : int
+            - children : ArrayList<Inode>
+            + FolderInode(name : String)
+            + getSize() : int
+            + setParent(inode : Inode)
+            + addInode(inode : Inode)
+            + getChildren() : ArrayList<Inode>
+        }
+
+        class FileInode extends Inode {
+            - size : int
+            + FileInode(String name)
+            + getSize() : int
+        }
+    }
+
+    package interfaces {
+
+        interface IUserInterface {
+            + run()
+        }
+
+        class TextInterface implements IUserInterface {
+            - controller : IExplorerController
+            + TextInterface(controller : IExplorerController)
+            + run()
+        }
+
+        abstract class AbstractInterface {
+            + AbstractInterface(controller : IExplorerController)
+        }
+    }
+
+    package controllers {
+
+        interface IExplorerController {
+            + executeCommand(commandStr : String) : String
+        }
+
+        class ExplorerController implements IExplorerController {
+            - currentDirectory : FolderInode
+            + ExplorerController()
+            + executeCommand(commandStr : String) : String
+            - doCommand(command : Command) : String
+            - doListCommand() : String
+            - doChangeDirectoryCommand(command : ChangeDirectoryCommand) : String
+            - doMakeDirectoryCommand(command : MakeDirectoryCommand) : String
+            - doTouchCommand(command : TouchCommand) : String
+            - findFolderByPath(path : String) : FolderInode
+            - getRoot() : FolderInode
+        }
+    }
+
+    package commands {
+        
+        package parsers {
+
+            interface ICommandParser {
+                + parse(commandStr : String) : Command
+            }
+
+            class UnixLikeCommandParser implements ICommandParser {
+                + parse(commandStr : String) : Command
+                - splitArguments(commandStr : String) : String[]
+                - mapCommand(String[] parts) : Command
+            }
+        }
+
+        abstract class Command {
+        }
+
+        class TouchCommand extends Command {
+            - fileName : String
+            + TouchCommand(fileName : String)
+            + getFileName() : String
+        }
+
+        class MakeDirectoryCommand extends Command {
+            - directoryName : String
+            + MakeDirectoryCommand(directoryName : String)
+            + getDirectoryName() : String
+        }
+
+        class ListCommand extends Command {
+            + ListCommand()
+        }
+
+        class ErrorCommand extends Command {
+            - errorMessage : String
+            + ErrorCommand(errorMessage : String)
+            + getErrorMessage() : String
+        }
+
+        class ChangeDirectoryCommand extends Command {
+            - path : String
+            + ChangeDirectoryCommand(path : String)
+            + getPath() : String
+        }
+
+        class CommandParser {
+        }
+    }
+
+}
+
+
+
+' Inode "1" <|-- "0..*" FolderInode
+' Inode "1" <|-- "0..*" FileInode
+' TextInterface "1" o-- "1" IExplorerController
+' AbstractInterface "1" o-- "1" IExplorerController
+' ExplorerController "1" o-- "1" FolderInode
+' Command "1" <|-- TouchCommand
+' Command "1" <|-- MakeDirectoryCommand
+' Command "1" <|-- ListCommand
+' Command "1" <|-- ErrorCommand
+' Command "1" <|-- ChangeDirectoryCommand
+' ICommandParser <|-- UnixLikeCommandParser
+
+@enduml

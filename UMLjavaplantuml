@@ -1,0 +1,233 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+package com.esiea.pootd2;
+
+import com.esiea.pootd2.controllers.ExplorerController;
+import com.esiea.pootd2.interfaces.TextInterface;
+
+public class ExplorerApp {
+    public static void main(String[] args)
+}
+
+
+package com.esiea.pootd2.models;
+
+public abstract class Inode {
+    private String name;
+    protected FolderInode parent;
+    
+    public Inode(String name)
+
+    public String getName()
+
+    public FolderInode getParent()
+
+    public int getSize()
+
+}
+
+package com.esiea.pootd2.models;
+
+public class FolderInode extends Inode {
+    private int size;
+    private ArrayList<Inode> children;
+
+    public FolderInode(String name)
+
+    public int getSize()
+
+    public void setParent(Inode inode)
+
+    public void addInode(Inode inode)
+
+    public ArrayList<Inode> getChildren()
+
+}
+
+
+package com.esiea.pootd2.models;
+
+public class FileInode extends Inode {
+
+    private int size;
+
+    public FileInode(String name) {
+        super(name);
+    }
+
+    public int getSize()
+
+}
+
+
+
+package com.esiea.pootd2.interfaces;
+
+public interface IUserInterface {
+    public void run();
+}
+
+package com.esiea.pootd2.interfaces;
+
+import com.esiea.pootd2.controllers.IExplorerController;
+
+public class TextInterface implements IUserInterface {
+
+    private IExplorerController controller;
+
+    public TextInterface(IExplorerController controller)
+
+    @Override
+    public void run() 
+    
+}    
+
+
+package com.esiea.pootd2.interfaces;
+
+import com.esiea.pootd2.controllers.IExplorerController;
+
+public class AbstractInterface {
+
+    public AbstractInterface(IExplorerController controller)
+
+}
+
+
+package com.esiea.pootd2.controllers;
+
+public interface IExplorerController {
+    public String executeCommand(String commandStr);
+}
+
+
+package com.esiea.pootd2.controllers;
+
+import com.esiea.pootd2.commands.ChangeDirectoryCommand;
+import com.esiea.pootd2.commands.Command;
+import com.esiea.pootd2.commands.ErrorCommand;
+import com.esiea.pootd2.commands.ListCommand;
+import com.esiea.pootd2.commands.MakeDirectoryCommand;
+import com.esiea.pootd2.commands.TouchCommand;
+import com.esiea.pootd2.commands.parsers.UnixLikeCommandParser;
+import com.esiea.pootd2.models.FileInode;
+import com.esiea.pootd2.models.FolderInode;
+
+public class ExplorerController implements IExplorerController {
+
+    private FolderInode currentDirectory;
+
+    public ExplorerController()
+
+    @Override
+    public String executeCommand(String commandStr)
+
+    private String doCommand(Command command)
+
+    private String doListCommand()
+
+    private String doChangeDirectoryCommand(ChangeDirectoryCommand command)
+
+    private String doMakeDirectoryCommand(MakeDirectoryCommand command)
+    
+    private String doTouchCommand(TouchCommand command)
+    
+    private FolderInode findFolderByPath(String path)
+    
+    private FolderInode getRoot()
+    
+}
+
+package com.esiea.pootd2.commands;
+
+public abstract class Command {
+    
+}
+
+
+package com.esiea.pootd2.commands;
+
+public class TouchCommand extends Command {
+    private final String fileName;
+
+    public TouchCommand(String fileName)
+
+    public String getFileName()
+}
+
+
+package com.esiea.pootd2.commands;
+
+public class MakeDirectoryCommand extends Command {
+    private final String directoryName;
+
+    public MakeDirectoryCommand(String directoryName)
+
+    public String getDirectoryName()
+}
+
+package com.esiea.pootd2.commands;
+
+public class ListCommand extends Command {
+    public ListCommand()
+}
+
+package com.esiea.pootd2.commands;
+
+public class ErrorCommand extends Command {
+    private final String errorMessage;
+
+    public ErrorCommand(String errorMessage)
+
+    public String getErrorMessage()
+}
+
+package com.esiea.pootd2.commands;
+
+public class ChangeDirectoryCommand extends Command {
+    private final String path;
+    
+    public ChangeDirectoryCommand(String path)
+    
+    public String getPath()
+}
+
+package com.esiea.pootd2.commands;
+
+public class CommandParser {
+
+}
+
+
+
+package com.esiea.pootd2.commands.parsers;
+
+import com.esiea.pootd2.commands.Command;
+
+public interface ICommandParser {
+    Command parse(String commandStr);
+}
+
+package com.esiea.pootd2.commands.parsers;
+
+import com.esiea.pootd2.commands.ChangeDirectoryCommand;
+import com.esiea.pootd2.commands.Command;
+import com.esiea.pootd2.commands.ErrorCommand;
+import com.esiea.pootd2.commands.ListCommand;
+import com.esiea.pootd2.commands.MakeDirectoryCommand;
+import com.esiea.pootd2.commands.TouchCommand;
+
+public class UnixLikeCommandParser implements ICommandParser {
+
+    @Override
+    public Command parse(String commandStr)
+
+    private String[] splitArguments(String commandStr)
+
+    private Command mapCommand(String[] parts)
+}
+
+
+@enduml

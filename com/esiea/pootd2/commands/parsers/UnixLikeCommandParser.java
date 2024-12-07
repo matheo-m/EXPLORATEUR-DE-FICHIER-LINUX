@@ -1,6 +1,11 @@
 package com.esiea.pootd2.commands.parsers;
 
-import com.esiea.pootd2.commands.*;
+import com.esiea.pootd2.commands.ChangeDirectoryCommand;
+import com.esiea.pootd2.commands.Command;
+import com.esiea.pootd2.commands.ErrorCommand;
+import com.esiea.pootd2.commands.ListCommand;
+import com.esiea.pootd2.commands.MakeDirectoryCommand;
+import com.esiea.pootd2.commands.TouchCommand;
 
 public class UnixLikeCommandParser implements ICommandParser {
 
