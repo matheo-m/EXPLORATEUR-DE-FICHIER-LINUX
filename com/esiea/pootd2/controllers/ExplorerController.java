@@ -16,7 +16,7 @@ public class ExplorerController implements IExplorerController {
     private FolderInode currentDirectory;
 
     public ExplorerController() {
-        this.currentDirectory = new FolderInode("_entre_");
+        this.currentDirectory = new FolderInode("/");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ExplorerController implements IExplorerController {
         } else if (command instanceof ErrorCommand) {
             return ((ErrorCommand) command).getErrorMessage();
         } else {
-            return "Unknown command type.";
+            return "Type de commande inconnu.";
         }
     }
 
@@ -56,24 +56,24 @@ public class ExplorerController implements IExplorerController {
         String path = command.getPath();
         FolderInode target = findFolderByPath(path);
         if (target == null) {
-            return "Directory not found: " + path;
+            return "Répertoire introuvable : " + path;
         }
         this.currentDirectory = target;
-        return "Changed directory to " + path;
+        return "Répertoire actuel changé à " + path;
     }
 
     private String doMakeDirectoryCommand(MakeDirectoryCommand command) {
         String dirName = command.getDirectoryName();
         FolderInode newDir = new FolderInode(dirName);
         currentDirectory.addInode(newDir);
-        return "Directory created: " + dirName;
+        return "Répertoire créé : " + dirName;
     }
 
     private String doTouchCommand(TouchCommand command) {
         String fileName = command.getFileName();
         FileInode newFile = new FileInode(fileName);
         currentDirectory.addInode(newFile);
-        return "File created: " + fileName;
+        return "Fichier créé : " + fileName;
     }
 
     private FolderInode findFolderByPath(String path) {

@@ -40,7 +40,7 @@ package com.esiea.pootd2 {
     package interfaces {
 
         interface IUserInterface {
-            + run()
+            + run() : void
         }
         abstract class AbstractInterface {
             # controller : IExplorerController;
@@ -49,9 +49,8 @@ package com.esiea.pootd2 {
         }
 
         class TextInterface extends AbstractInterface implements IUserInterface {
-            - controller : IExplorerController
             + TextInterface(controller : IExplorerController)
-            + run()
+            + run() : void
         }
 
 
@@ -73,6 +72,7 @@ package com.esiea.pootd2 {
 
         interface IExplorerController {
             + executeCommand(commandStr : String) : String
+            + getCurrentPath() : String
         }
 
         class ExplorerController implements IExplorerController {
@@ -86,6 +86,7 @@ package com.esiea.pootd2 {
             - doTouchCommand(command : TouchCommand) : String
             - findFolderByPath(path : String) : FolderInode
             - getRoot() : FolderInode
+            + getCurrentPath() : String
         }
     }
 
@@ -104,23 +105,16 @@ package com.esiea.pootd2 {
             }
         }
 
+        class ChangeDirectoryCommand extends Command {
+            - path : String
+            + ChangeDirectoryCommand(path : String)
+            + getPath() : String
+        }
+
         abstract class Command {
         }
 
-        class TouchCommand extends Command {
-            - fileName : String
-            + TouchCommand(fileName : String)
-            + getFileName() : String
-        }
-
-        class MakeDirectoryCommand extends Command {
-            - directoryName : String
-            + MakeDirectoryCommand(directoryName : String)
-            + getDirectoryName() : String
-        }
-
-        class ListCommand extends Command {
-            + ListCommand()
+        class CommandParser {
         }
 
         class ErrorCommand extends Command {
@@ -129,13 +123,24 @@ package com.esiea.pootd2 {
             + getErrorMessage() : String
         }
 
-        class ChangeDirectoryCommand extends Command {
-            - path : String
-            + ChangeDirectoryCommand(path : String)
-            + getPath() : String
+        class ListCommand extends Command {
+            + ListCommand()
         }
 
-        class CommandParser {
+        class MakeDirectoryCommand extends Command {
+            - directoryName : String
+            + MakeDirectoryCommand(directoryName : String)
+            + getDirectoryName() : String
+        }
+
+        class PwdCommand extends Command{
+             + PwdCommand()
+        }
+
+        class TouchCommand extends Command {
+            - fileName : String
+            + TouchCommand(fileName : String)
+            + getFileName() : String
         }
     }
 

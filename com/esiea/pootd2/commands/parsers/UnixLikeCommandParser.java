@@ -13,12 +13,12 @@ public class UnixLikeCommandParser implements ICommandParser {
     @Override
     public Command parse(String commandStr) {
         if (commandStr == null || commandStr.trim().isEmpty()) {
-            return new ErrorCommand("Empty command");
+            return new ErrorCommand("Commande vide");
         }
 
         String[] parts = splitArguments(commandStr);
         if (parts.length == 0) {
-            return new ErrorCommand("Invalid command");
+            return new ErrorCommand("Commande invalide");
         }
 
         return mapCommand(parts);
@@ -39,21 +39,21 @@ public class UnixLikeCommandParser implements ICommandParser {
                 return new PwdCommand();
             case "cd":
                 if (parts.length < 2) {
-                    return new ErrorCommand("cd requires a path argument");
+                    return new ErrorCommand("cd nécessite un argument de chemin");
                 }
                 return new ChangeDirectoryCommand(parts[1]);
             case "mkdir":
                 if (parts.length < 2) {
-                    return new ErrorCommand("mkdir requires a directory name");
+                    return new ErrorCommand("mkdir nécessite un nom de répertoire");
                 }
                 return new MakeDirectoryCommand(parts[1]);
             case "touch":
                 if (parts.length < 2) {
-                    return new ErrorCommand("touch requires a file name");
+                    return new ErrorCommand("touch nécessite un nom de fichier");
                 }
                 return new TouchCommand(parts[1]);
             default:
-                return new ErrorCommand("Unknown command: " + command);
+                return new ErrorCommand("Commande inconnue: " + command);
         }
     }
 }
