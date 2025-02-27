@@ -1,4 +1,3 @@
-﻿# Java-TD2
 # Explorateur de fichiers en Java
 
 Mathéo Moussé
